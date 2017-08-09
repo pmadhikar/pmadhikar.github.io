@@ -6,9 +6,213 @@
 </description>
     <link>http://madhikar.com/</link>
     <atom:link href="http://madhikar.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 02 Jul 2017 21:30:03 -0400</pubDate>
-    <lastBuildDate>Sun, 02 Jul 2017 21:30:03 -0400</lastBuildDate>
+    <pubDate>Wed, 09 Aug 2017 19:13:43 +0200</pubDate>
+    <lastBuildDate>Wed, 09 Aug 2017 19:13:43 +0200</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>Maximizing Laziness 1</title>
+        <description>&lt;h3 id=&quot;do-you-know-what-i-think-about-most-while-working&quot;&gt;Do you know what I think about most while working?&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;Why am I working?&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;You see, my job isn’t about creating wonderful pieces of art. My job
+isn’t about solving the world’s problems. My jobs isn’t about
+entertaining people. My job is about finishing my PhD.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#skip&quot;&gt;Quit the whining and take me to the tutorial.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;If you are thinking about doing a PhD for any other reason than having
+a PhD, reconsider. Actually, no I’m just kidding. We just don’t like
+people like you. With your god damn ambition and your barbie doll
+outlook on life. And your happiness.&lt;/p&gt;
+
+&lt;p&gt;But I digress.&lt;/p&gt;
+
+&lt;p&gt;A PhD such as mine involves two kinds of activities:&lt;/p&gt;
+
+&lt;p&gt;Ask insightful scientific questions that drive the discovery of
+amazing new phenomena that may &lt;em&gt;change the world&lt;/em&gt;. Try to
+answer the questions. You don’t need to be a scientist to do
+the former, and the latter is impossible (or at least somewhat
+unlikely). Some people think being in academia has made me a
+cynic. I can’t reasonably dispute this&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;Running 10,000 simulations. Luckily for me, I’m not an
+experimentalist. Unluckily for me I’m a computationalist&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. And
+being a computationalist involves running countless simulations
+using weird esoteric software that was written by other
+computationalists. Or if you’re really stupid, software that you
+wrote yourself. And this means writing 10,000 input files.&lt;/p&gt;
+
+&lt;p&gt;At the moment these are &lt;a href=&quot;http://www.gromacs.org/&quot;&gt;Gromacs&lt;/a&gt; input
+files. This is what my normal day looks like:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Write input file 1 to 29. Use a template file because I’m
+smart. Write changes to each file manually because I’m not smart.&lt;/li&gt;
+  &lt;li&gt;Launch simulation 3,7,13 on server3c&lt;/li&gt;
+  &lt;li&gt;Launch simulation 5,8,1 on server1a&lt;/li&gt;
+  &lt;li&gt;Procrastinate&lt;/li&gt;
+  &lt;li&gt;Launch simulation 2,9 on server13&lt;/li&gt;
+  &lt;li&gt;All simulations crash because of wrong input&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Shoot self with gun&lt;/p&gt;
+
+    &lt;p&gt;…&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ol start=&quot;8&quot;&gt;
+  &lt;li&gt;Gun doesn’t fire because of wrong input&lt;/li&gt;
+  &lt;li&gt;:’(&lt;/li&gt;
+  &lt;li&gt;Manually go through 29 input files and fix mistake&lt;/li&gt;
+  &lt;li&gt;goto 2&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Running 10,000 simulations means writing 10,000 input files. So when
+I’m working, I’m writing 10,000 input files. Do you know what I think
+about most while I’m working?&lt;/p&gt;
+
+&lt;h3 id=&quot;a-nameskipa-when-you-procrastinate-self-intoxicate-generously-lubricate-deeply-aspirate&quot;&gt;&lt;a name=&quot;skip&quot;&gt;&lt;/a&gt; When you procrastinate: self intoxicate, generously lubricate, deeply aspirate&lt;/h3&gt;
+
+&lt;p&gt;And automate!&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;Here, I’ll show you how to automate the creation of 10,000 gromacs
+.mdp files. Though this method can be used to create any kind of input
+files that are text. And it can also be used to generate any sort or
+repetitive code.&lt;/p&gt;
+
+&lt;p&gt;We’ll be using a template engine. What is a template engine you
+may ask? I’m not entirely sure. But we can use one to automate the
+creation of many input files. And that is all that matters for now.&lt;/p&gt;
+
+&lt;p&gt;There are &lt;a href=&quot;http://lmgtfy.com/?q=template+engine&quot;&gt;a few out there&lt;/a&gt;, but
+we’ll be using &lt;a href=&quot;http://mulholland.xyz/docs/ibis/&quot;&gt;ibis&lt;/a&gt; because it’s
+lightweight, it’s written in python, it’s in the public domain, and
+its website is so gosh darn &lt;em&gt;sexy&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;It was written for creating static websites lazily (mine is one of
+these). But it should work the same for .mdp files, or any kind of
+text files.&lt;/p&gt;
+
+&lt;p&gt;First we should create a template. Here is a gromacs template file for
+some simulations. I want to a 100 simulations, with temperatures
+ranging from 200K to 300K. My .mdp file template looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;; template.mdp
+; ...
+; Crap I don&#39;t care about right now
+; ...
+
+ref_t = {{temp}} ; This is template markup. Note the double curly braces.
+
+; ...
+; More crap I don&#39;t care about right now
+; ...
+
+gen_temp = {{temp}} ; what we can do it twice!?!?
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;{{temp}}  will hold the value for the
+temperature. And we’ll script creating the files with python and
+ibis.  {{temp}}  will be used as a key in a
+dictionary that we will give Ibis. Ibis will then replace the keys
+with their values. Of course, we will be sneaky and change the value
+of the keys on the fly.&lt;/p&gt;
+
+&lt;p&gt;Let’s start.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;pip install ibis
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;mkdir input_files
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;cp template.mdp input_files/
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;input_files&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;c&quot;&gt;# run.py&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;ibis&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# read in the template file as a string into an ibis template&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;template.mdp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tempFile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ibis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tempFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;readlines&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# now for the fun bit:&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;301&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;temp_{}.mdp&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;w&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;outFile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;temp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# replace  {{temp}}  with the value in the variable t&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;outFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;writelines&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Now to generate the files. Kiss your SSD goodbye.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;python run.py
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ls -v temp_&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+temp_200.mdp  temp_215.mdp  temp_230.mdp  temp_245.mdp  temp_260.mdp  temp_275.mdp  temp_290.mdp
+temp_201.mdp  temp_216.mdp  temp_231.mdp  temp_246.mdp  temp_261.mdp  temp_276.mdp  temp_291.mdp
+temp_202.mdp  temp_217.mdp  temp_232.mdp  temp_247.mdp  temp_262.mdp  temp_277.mdp  temp_292.mdp
+temp_203.mdp  temp_218.mdp  temp_233.mdp  temp_248.mdp  temp_263.mdp  temp_278.mdp  temp_293.mdp
+temp_204.mdp  temp_219.mdp  temp_234.mdp  temp_249.mdp  temp_264.mdp  temp_279.mdp  temp_294.mdp
+temp_205.mdp  temp_220.mdp  temp_235.mdp  temp_250.mdp  temp_265.mdp  temp_280.mdp  temp_295.mdp
+temp_206.mdp  temp_221.mdp  temp_236.mdp  temp_251.mdp  temp_266.mdp  temp_281.mdp  temp_296.mdp
+temp_207.mdp  temp_222.mdp  temp_237.mdp  temp_252.mdp  temp_267.mdp  temp_282.mdp  temp_297.mdp
+temp_208.mdp  temp_223.mdp  temp_238.mdp  temp_253.mdp  temp_268.mdp  temp_283.mdp  temp_298.mdp
+temp_209.mdp  temp_224.mdp  temp_239.mdp  temp_254.mdp  temp_269.mdp  temp_284.mdp  temp_299.mdp
+temp_210.mdp  temp_225.mdp  temp_240.mdp  temp_255.mdp  temp_270.mdp  temp_285.mdp  temp_300.mdp
+temp_211.mdp  temp_226.mdp  temp_241.mdp  temp_256.mdp  temp_271.mdp  temp_286.mdp
+temp_212.mdp  temp_227.mdp  temp_242.mdp  temp_257.mdp  temp_272.mdp  temp_287.mdp
+temp_213.mdp  temp_228.mdp  temp_243.mdp  temp_258.mdp  temp_273.mdp  temp_288.mdp
+temp_214.mdp  temp_229.mdp  temp_244.mdp  temp_259.mdp  temp_274.mdp  temp_289.mdp&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Each with the proper value of temperature.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;diff -y -d --suppress-common-lines temp_200.mdp temp_201.mdp
+ref_t &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 200 ; note the double curly braces.		      |	ref_t &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 201 ; note the double curly braces.
+gen_temp &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 200 ; what we can &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;it twice!?!?		      |	gen_temp &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 201 ; what we can &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;it twi&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Needless to say, the files you generate are still subject to the rules
+of the program you intend to use them with. Don’t blame me if
+something breaks.&lt;/p&gt;
+
+&lt;p&gt;Another interesting thing about this is that a combination of
+different templates and Ibis template markup, we can write fairly
+complicated scripts that produce a diverse set of input files. And
+because the whole thing is in python, it is possible to automate the
+set up of and running many different simulations related to a certain
+system. But be careful, too much automation makes hair grow on your palms.&lt;/p&gt;
+
+&lt;p&gt;Ibis is extremely powerful and you can do all kinds of amazing things
+with it. I recommend visiting its beautiful website. Drink plenty of fluids.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;This sentence is very useful if you ever write a paper that gets to peer review. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;Noun: Someone that does runs computational experiments(simulations). Was that too hard Oxford dictionary? How dare you call me a &lt;a href=&quot;https://en.oxforddictionaries.com/definition/computationalism&quot;&gt;Psychologist&lt;/a&gt;? &lt;em&gt;Ew&lt;/em&gt;. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;It took me only 90 minutes to come up with this rhyming joke. Good thing I did that at my office, where I don’t have anything important to do. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Wed, 09 Aug 2017 00:00:00 +0200</pubDate>
+        <link>http://madhikar.com/tips/2017/08/09/mazimizing-laziness-1.html</link>
+        <guid isPermaLink="true">http://madhikar.com/tips/2017/08/09/mazimizing-laziness-1.html</guid>
+        
+        <category>Tutorial</category>
+        
+        <category>python</category>
+        
+        <category>ibis</category>
+        
+        <category>gromacs</category>
+        
+        
+        <category>Tips</category>
+        
+      </item>
     
       <item>
         <title>How to do a PhD</title>
@@ -27,7 +231,7 @@ place for advice.&lt;/p&gt;
   &lt;li&gt;Learn how to write flowcharts. There is a lot of internet money in it.&lt;/li&gt;
 &lt;/ol&gt;
 </description>
-        <pubDate>Sun, 02 Jul 2017 00:00:00 -0400</pubDate>
+        <pubDate>Sun, 02 Jul 2017 00:00:00 +0200</pubDate>
         <link>http://madhikar.com/therapy/2017/07/02/phd-howto.html</link>
         <guid isPermaLink="true">http://madhikar.com/therapy/2017/07/02/phd-howto.html</guid>
         
@@ -172,7 +376,7 @@ several. In fact, some steps are being added as we speak!” This was
 strange, how would I be able to reach the peak if the stairs keep
 growing? Determined, I made haste to the stairs.&lt;/p&gt;
 </description>
-        <pubDate>Tue, 02 May 2017 00:00:00 -0400</pubDate>
+        <pubDate>Tue, 02 May 2017 00:00:00 +0200</pubDate>
         <link>http://madhikar.com/lame%20writing/2017/05/02/the-mountain-of-knowledge.html</link>
         <guid isPermaLink="true">http://madhikar.com/lame%20writing/2017/05/02/the-mountain-of-knowledge.html</guid>
         
@@ -509,7 +713,7 @@ but the financial arm of the Tandoran government. &lt;a href=&quot;#fnref:5&quot
   &lt;/ol&gt;
 &lt;/div&gt;
 </description>
-        <pubDate>Mon, 08 Aug 2016 00:00:00 -0400</pubDate>
+        <pubDate>Mon, 08 Aug 2016 00:00:00 +0200</pubDate>
         <link>http://madhikar.com/lame%20writing/2016/08/08/martin-chapter1.html</link>
         <guid isPermaLink="true">http://madhikar.com/lame%20writing/2016/08/08/martin-chapter1.html</guid>
         
@@ -589,7 +793,7 @@ understandable to a wide audience is an art. An art I would like to learn. I
 will try to write as much as possible here to that end. Somebody might find it
 interesting, but this blog will be mostly for me.&lt;/p&gt;
 </description>
-        <pubDate>Fri, 03 Jul 2015 00:00:00 -0400</pubDate>
+        <pubDate>Fri, 03 Jul 2015 00:00:00 +0200</pubDate>
         <link>http://madhikar.com/rants/2015/07/03/hello-world.html</link>
         <guid isPermaLink="true">http://madhikar.com/rants/2015/07/03/hello-world.html</guid>
         
