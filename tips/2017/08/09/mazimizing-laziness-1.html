@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Maximizing Laziness 1</title>
+  <meta name="description" content="Do you know what I think about most while working?">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://madhikar.com/tips/2017/08/09/mazimizing-laziness-1.html">
+  <link rel="alternate" type="application/rss+xml" title="Pranav Madhikar" href="http://madhikar.com/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Pranav Madhikar</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Maximizing Laziness 1</h1>
+    <p class="post-meta"><time datetime="2017-08-09T00:00:00+02:00" itemprop="datePublished">Aug 9, 2017</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h3 id="do-you-know-what-i-think-about-most-while-working">Do you know what I think about most while working?</h3>
+
+<p><em>Why am I working?</em></p>
+
+<p>You see, my job isn’t about creating wonderful pieces of art. My job
+isn’t about solving the world’s problems. My jobs isn’t about
+entertaining people. My job is about finishing my PhD.</p>
+
+<p><a href="#skip">Quit the whining and take me to the tutorial.</a></p>
+
+<p>If you are thinking about doing a PhD for any other reason than having
+a PhD, reconsider. Actually, no I’m just kidding. We just don’t like
+people like you. With your god damn ambition and your barbie doll
+outlook on life. And your happiness.</p>
+
+<p>But I digress.</p>
+
+<p>A PhD such as mine involves two kinds of activities:</p>
+
+<p>Ask insightful scientific questions that drive the discovery of
+amazing new phenomena that may <em>change the world</em>. Try to
+answer the questions. You don’t need to be a scientist to do
+the former, and the latter is impossible (or at least somewhat
+unlikely). Some people think being in academia has made me a
+cynic. I can’t reasonably dispute this<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>.</p>
+
+<p>Running 10,000 simulations. Luckily for me, I’m not an
+experimentalist. Unluckily for me I’m a computationalist<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>. And
+being a computationalist involves running countless simulations
+using weird esoteric software that was written by other
+computationalists. Or if you’re really stupid, software that you
+wrote yourself. And this means writing 10,000 input files.</p>
+
+<p>At the moment these are <a href="http://www.gromacs.org/">Gromacs</a> input
+files. This is what my normal day looks like:</p>
+
+<ol>
+  <li>Write input file 1 to 29. Use a template file because I’m
+smart. Write changes to each file manually because I’m not smart.</li>
+  <li>Launch simulation 3,7,13 on server3c</li>
+  <li>Launch simulation 5,8,1 on server1a</li>
+  <li>Procrastinate</li>
+  <li>Launch simulation 2,9 on server13</li>
+  <li>All simulations crash because of wrong input</li>
+  <li>
+    <p>Shoot self with gun</p>
+
+    <p>…</p>
+  </li>
+</ol>
+
+<ol start="8">
+  <li>Gun doesn’t fire because of wrong input</li>
+  <li>:’(</li>
+  <li>Manually go through 29 input files and fix mistake</li>
+  <li>goto 2</li>
+</ol>
+
+<p>Running 10,000 simulations means writing 10,000 input files. So when
+I’m working, I’m writing 10,000 input files. Do you know what I think
+about most while I’m working?</p>
+
+<h3 id="a-nameskipa-when-you-procrastinate-self-intoxicate-generously-lubricate-deeply-aspirate"><a name="skip"></a> When you procrastinate: self intoxicate, generously lubricate, deeply aspirate</h3>
+
+<p>And automate!<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup></p>
+
+<p>Here, I’ll show you how to automate the creation of 10,000 gromacs
+.mdp files. Though this method can be used to create any kind of input
+files that are text. And it can also be used to generate any sort or
+repetitive code.</p>
+
+<p>We’ll be using a template engine. What is a template engine you
+may ask? I’m not entirely sure. But we can use one to automate the
+creation of many input files. And that is all that matters for now.</p>
+
+<p>There are <a href="http://lmgtfy.com/?q=template+engine">a few out there</a>, but
+we’ll be using <a href="http://mulholland.xyz/docs/ibis/">ibis</a> because it’s
+lightweight, it’s written in python, it’s in the public domain, and
+its website is so gosh darn <em>sexy</em>.</p>
+
+<p>It was written for creating static websites lazily (mine is one of
+these). But it should work the same for .mdp files, or any kind of
+text files.</p>
+
+<p>First we should create a template. Here is a gromacs template file for
+some simulations. I want to a 100 simulations, with temperatures
+ranging from 200K to 300K. My .mdp file template looks like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>; template.mdp
+; ...
+; Crap I don't care about right now
+; ...
+
+ref_t = {{temp}} ; This is template markup. Note the double curly braces.
+
+; ...
+; More crap I don't care about right now
+; ...
+
+gen_temp = {{temp}} ; what we can do it twice!?!?
+</code></pre>
+</div>
+
+<p>{{temp}}  will hold the value for the
+temperature. And we’ll script creating the files with python and
+ibis.  {{temp}}  will be used as a key in a
+dictionary that we will give Ibis. Ibis will then replace the keys
+with their values. Of course, we will be sneaky and change the value
+of the keys on the fly.</p>
+
+<p>Let’s start.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>pip install ibis
+<span class="gp">$ </span>mkdir input_files
+<span class="gp">$ </span>cp template.mdp input_files/
+<span class="gp">$ </span><span class="nb">cd </span>input_files</code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># run.py</span>
+<span class="kn">import</span> <span class="nn">ibis</span>
+<span class="c"># read in the template file as a string into an ibis template</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"template.mdp"</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">tempFile</span><span class="p">:</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">ibis</span><span class="o">.</span><span class="n">Template</span><span class="p">(</span><span class="s">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()))</span>
+
+<span class="c"># now for the fun bit:</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">301</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"temp_{}.mdp"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="s">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">outFile</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s">"temp"</span><span class="p">:</span> <span class="n">t</span><span class="p">}</span> <span class="c"># replace  {{temp}}  with the value in the variable t</span>
+        <span class="n">outFile</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">d</span><span class="p">))</span></code></pre></figure>
+
+<p>Now to generate the files. Kiss your SSD goodbye.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>python run.py
+<span class="gp">$ </span>ls -v temp_<span class="k">*</span>
+temp_200.mdp  temp_215.mdp  temp_230.mdp  temp_245.mdp  temp_260.mdp  temp_275.mdp  temp_290.mdp
+temp_201.mdp  temp_216.mdp  temp_231.mdp  temp_246.mdp  temp_261.mdp  temp_276.mdp  temp_291.mdp
+temp_202.mdp  temp_217.mdp  temp_232.mdp  temp_247.mdp  temp_262.mdp  temp_277.mdp  temp_292.mdp
+temp_203.mdp  temp_218.mdp  temp_233.mdp  temp_248.mdp  temp_263.mdp  temp_278.mdp  temp_293.mdp
+temp_204.mdp  temp_219.mdp  temp_234.mdp  temp_249.mdp  temp_264.mdp  temp_279.mdp  temp_294.mdp
+temp_205.mdp  temp_220.mdp  temp_235.mdp  temp_250.mdp  temp_265.mdp  temp_280.mdp  temp_295.mdp
+temp_206.mdp  temp_221.mdp  temp_236.mdp  temp_251.mdp  temp_266.mdp  temp_281.mdp  temp_296.mdp
+temp_207.mdp  temp_222.mdp  temp_237.mdp  temp_252.mdp  temp_267.mdp  temp_282.mdp  temp_297.mdp
+temp_208.mdp  temp_223.mdp  temp_238.mdp  temp_253.mdp  temp_268.mdp  temp_283.mdp  temp_298.mdp
+temp_209.mdp  temp_224.mdp  temp_239.mdp  temp_254.mdp  temp_269.mdp  temp_284.mdp  temp_299.mdp
+temp_210.mdp  temp_225.mdp  temp_240.mdp  temp_255.mdp  temp_270.mdp  temp_285.mdp  temp_300.mdp
+temp_211.mdp  temp_226.mdp  temp_241.mdp  temp_256.mdp  temp_271.mdp  temp_286.mdp
+temp_212.mdp  temp_227.mdp  temp_242.mdp  temp_257.mdp  temp_272.mdp  temp_287.mdp
+temp_213.mdp  temp_228.mdp  temp_243.mdp  temp_258.mdp  temp_273.mdp  temp_288.mdp
+temp_214.mdp  temp_229.mdp  temp_244.mdp  temp_259.mdp  temp_274.mdp  temp_289.mdp</code></pre></figure>
+
+<p>Each with the proper value of temperature.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>diff -y -d --suppress-common-lines temp_200.mdp temp_201.mdp
+ref_t <span class="o">=</span> 200 ; note the double curly braces.		      |	ref_t <span class="o">=</span> 201 ; note the double curly braces.
+gen_temp <span class="o">=</span> 200 ; what we can <span class="k">do </span>it twice!?!?		      |	gen_temp <span class="o">=</span> 201 ; what we can <span class="k">do </span>it twi</code></pre></figure>
+
+<p>Needless to say, the files you generate are still subject to the rules
+of the program you intend to use them with. Don’t blame me if
+something breaks.</p>
+
+<p>Another interesting thing about this is that a combination of
+different templates and Ibis template markup, we can write fairly
+complicated scripts that produce a diverse set of input files. And
+because the whole thing is in python, it is possible to automate the
+set up of and running many different simulations related to a certain
+system. But be careful, too much automation makes hair grow on your palms.</p>
+
+<p>Ibis is extremely powerful and you can do all kinds of amazing things
+with it. I recommend visiting its beautiful website. Drink plenty of fluids.</p>
+
+<hr />
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>This sentence is very useful if you ever write a paper that gets to peer review. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>Noun: Someone that does runs computational experiments(simulations). Was that too hard Oxford dictionary? How dare you call me a <a href="https://en.oxforddictionaries.com/definition/computationalism">Psychologist</a>? <em>Ew</em>. <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>It took me only 90 minutes to come up with this rhyming joke. Good thing I did that at my office, where I don’t have anything important to do. <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Pranav Madhikar</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Pranav Madhikar</li>
+          <li><a href="mailto:pmadhikar@gmail.com">pmadhikar@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/pmadhikar"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">pmadhikar</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/pvmadhikar"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">pvmadhikar</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>Pranav Madhikar's blog. Come here to see all of Pranav's musings, rants, and general wastes of time. 
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
