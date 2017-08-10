@@ -213,19 +213,124 @@ temp_214.mdp  temp_229.mdp  temp_244.mdp  temp_259.mdp  temp_274.mdp  temp_289.m
 ref_t <span class="o">=</span> 200 ; note the double curly braces.		      |	ref_t <span class="o">=</span> 201 ; note the double curly braces.
 gen_temp <span class="o">=</span> 200 ; what we can <span class="k">do </span>it twice!?!?		      |	gen_temp <span class="o">=</span> 201 ; what we can <span class="k">do </span>it twi</code></pre></figure>
 
+<p>“But wait!”, you say. I am Smarty McNotLazyPants. I don’t need
+this. Why not just do</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">template</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">"{{temp}}"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="p">))</span></code></pre></figure>
+
+<p>Well, I don’t know. You could just do that I suppose. But then you’re
+not Maximizing Laziness. And with a template engine you can do some
+more interesting things.</p>
+
+<p>Let’s make things a little more complicated. I have a protein that I
+want to simulate in a variety of conditions.  I’m going to do this
+because I don’t know what is going on. And maybe something interesting
+will happen if I run enough simulations. What else am I going to do?</p>
+
+<p>I want to run simulations at a variety of temperatures and pressures,
+with the Berendsen barostat, itself with a number of different
+parameters, which I will tweak if the pressure is higher than 1.2
+bar. I suspect that the most interesting case is at 285 K, so I will
+write the trajectory more frequently at that temperature and run the
+simulation with a smaller time step. I could just use a string replace
+(or even sed <em>shudder</em>), but this way the script is slightly easier to
+read. And I can generate all the input files with one template file
+and one script.</p>
+
+<p>Again the template input file (I’ve cut the irrelevant bits out)</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>dt                       = {{dt}}
+nstxtcout                = {{out_freq}}
+ref_t                    = {{temp}}
+
+ref_p                    = {{pressure}}
+
+gen_vel                  = yes
+gen_temp                 = {{temp}}
+compressibility          = {{comp}}
+</code></pre>
+</div>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># awesme.py</span>
+<span class="kn">import</span> <span class="nn">ibis</span>
+<span class="k">def</span> <span class="nf">SomeFunction</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">5e-5</span>
+
+<span class="c"># these parameters are for a Coarse-Grained simulation</span>
+<span class="n">pressures</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]</span> <span class="c"># in bar</span>
+<span class="n">temperatures</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">301</span><span class="p">)</span>
+<span class="n">out_freq1</span> <span class="o">=</span> <span class="mi">25000</span>
+<span class="n">out_freq2</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">dt1</span> <span class="o">=</span> <span class="mf">0.02</span>
+<span class="n">dt2</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">comp1</span> <span class="o">=</span> <span class="mf">4.5e-5</span>
+
+<span class="c"># read in the template file as a string into an ibis template</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"template.mdp"</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">tempFile</span><span class="p">:</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">ibis</span><span class="o">.</span><span class="n">Template</span><span class="p">(</span><span class="s">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()))</span>
+
+<span class="c"># now for the fun bit:</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">temperatures</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pressures</span><span class="p">:</span>
+        <span class="n">paramDict</span> <span class="o">=</span> <span class="p">{</span><span class="s">"temp"</span><span class="p">:</span><span class="n">t</span><span class="p">,</span> <span class="s">"pressure"</span><span class="p">:</span> <span class="n">p</span><span class="p">,</span> <span class="s">"dt"</span><span class="p">:</span> <span class="n">dt1</span><span class="p">,</span>
+                     <span class="s">"out_freq"</span><span class="p">:</span> <span class="n">out_freq1</span><span class="p">,</span> <span class="s">"comp"</span><span class="p">:</span><span class="n">comp1</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="mi">285</span><span class="p">:</span>
+            <span class="n">paramDict</span><span class="p">[</span><span class="s">"out_freq"</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_freq2</span>
+            <span class="n">paramDict</span><span class="p">[</span><span class="s">"dt"</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt2</span>
+
+        <span class="k">if</span> <span class="n">p</span> <span class="o">&gt;=</span> <span class="mf">1.2</span><span class="p">:</span>
+            <span class="n">paramDict</span><span class="p">[</span><span class="s">"comp"</span><span class="p">]</span> <span class="o">=</span> <span class="n">SomeFunction</span><span class="p">(</span><span class="n">paramDict</span><span class="p">[</span><span class="s">"temp"</span><span class="p">],</span> <span class="n">paramDict</span><span class="p">[</span><span class="s">"dt"</span><span class="p">],</span> <span class="n">p</span><span class="p">)</span> <span class="c"># I can let someone else make this decision.</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"input_{}_{}.mdp"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="s">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">outFile</span><span class="p">:</span>
+            <span class="n">outFile</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">paramDict</span><span class="p">))</span></code></pre></figure>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ python awesome.py
+$ ls -v input*.mdp
+input_200_0.5.mdp
+input_200_1.0.mdp
+input_200_1.5.mdp
+...
+$ cat input_285_1.5.mdp
+dt                       = 0.01
+nstxtcout                = 5000
+ref_t                    = 285
+
+ref_p                    = 1.5
+
+gen_vel                  = yes
+gen_temp                 = 285
+compressibility          = 5e-05
+</code></pre>
+</div>
+
 <p>Needless to say, the files you generate are still subject to the rules
 of the program you intend to use them with. Don’t blame me if
 something breaks.</p>
 
-<p>Another interesting thing about this is that a combination of
+<p>The most interesting thing about this is that a combination of
 different templates and Ibis template markup, we can write fairly
 complicated scripts that produce a diverse set of input files. And
 because the whole thing is in python, it is possible to automate the
 set up of and running many different simulations related to a certain
-system. But be careful, too much automation makes hair grow on your palms.</p>
+system. But be careful, too much automation makes hair grow on your
+palms.</p>
 
 <p>Ibis is extremely powerful and you can do all kinds of amazing things
-with it. I recommend visiting its beautiful website. Drink plenty of fluids.</p>
+with it. It even supports complicated programming done in the template
+itself. Though I suspect I won’t be needing the complicated bits. I
+recommend visiting its beautiful website. Drink plenty of fluids.</p>
+
+<p>For some resources on learning python
+see
+<a href="https://github.com/jakevdp/WhirlwindTourOfPython#a-whirlwind-tour-of-python">A Whirlwind Tour of Python</a> and
+especially for data scientists (basically all
+scientists)
+<a href="https://github.com/jakevdp/PythonDataScienceHandbook#python-data-science-handbook">Python Data Science Handbook</a>. These
+books are free, open source and focused on data processing,
+analysis. Why are there so many online resources for unimportant
+bullshit. WTF is Django? By the way, Django is itself built with a
+template engine.</p>
 
 <hr />
 
