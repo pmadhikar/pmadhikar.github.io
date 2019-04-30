@@ -6,9 +6,9 @@
 </description>
     <link>http://madhikar.com/</link>
     <atom:link href="http://madhikar.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 10 Aug 2017 06:04:16 +0200</pubDate>
-    <lastBuildDate>Thu, 10 Aug 2017 06:04:16 +0200</lastBuildDate>
-    <generator>Jekyll v3.0.1</generator>
+    <pubDate>Tue, 30 Apr 2019 16:13:56 +0200</pubDate>
+    <lastBuildDate>Tue, 30 Apr 2019 16:13:56 +0200</lastBuildDate>
+    <generator>Jekyll v3.1.6</generator>
     
       <item>
         <title>Maximizing Laziness 1</title>
@@ -74,7 +74,7 @@ smart. Write changes to each file manually because I’m not smart.&lt;/li&gt;
 I’m working, I’m writing 10,000 input files. Do you know what I think
 about most while I’m working?&lt;/p&gt;
 
-&lt;h3 id=&quot;a-nameskipa-when-you-procrastinate-self-intoxicate-generously-lubricate-deeply-aspirate&quot;&gt;&lt;a name=&quot;skip&quot;&gt;&lt;/a&gt; When you procrastinate: self intoxicate, generously lubricate, deeply aspirate&lt;/h3&gt;
+&lt;h3 id=&quot;-when-you-procrastinate-self-intoxicate-generously-lubricate-deeply-aspirate&quot;&gt;&lt;a name=&quot;skip&quot;&gt;&lt;/a&gt; When you procrastinate: self intoxicate, generously lubricate, deeply aspirate&lt;/h3&gt;
 
 &lt;p&gt;And automate!&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
@@ -100,7 +100,7 @@ text files.&lt;/p&gt;
 some simulations. I want to a 100 simulations, with temperatures
 ranging from 200K to 300K. My .mdp file template looks like this:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;; template.mdp
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;; template.mdp
 ; ...
 ; Crap I don&#39;t care about right now
 ; ...
@@ -112,8 +112,7 @@ ref_t = {{temp}} ; This is template markup. Note the double curly braces.
 ; ...
 
 gen_temp = {{temp}} ; what we can do it twice!?!?
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;{{temp}}  will hold the value for the
 temperature. And we’ll script creating the files with python and
@@ -124,10 +123,10 @@ of the keys on the fly.&lt;/p&gt;
 
 &lt;p&gt;Let’s start.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;pip install ibis
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;mkdir input_files
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;cp template.mdp input_files/
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;input_files&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;pip install ibis
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir input_files
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cp template.mdp input_files/
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;input_files&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;c&quot;&gt;# run.py&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;ibis&lt;/span&gt;
@@ -143,8 +142,8 @@ of the keys on the fly.&lt;/p&gt;
 
 &lt;p&gt;Now to generate the files. Kiss your SSD goodbye.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;python run.py
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ls -v temp_&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;python run.py
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; temp_&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
 temp_200.mdp  temp_215.mdp  temp_230.mdp  temp_245.mdp  temp_260.mdp  temp_275.mdp  temp_290.mdp
 temp_201.mdp  temp_216.mdp  temp_231.mdp  temp_246.mdp  temp_261.mdp  temp_276.mdp  temp_291.mdp
 temp_202.mdp  temp_217.mdp  temp_232.mdp  temp_247.mdp  temp_262.mdp  temp_277.mdp  temp_292.mdp
@@ -163,9 +162,9 @@ temp_214.mdp  temp_229.mdp  temp_244.mdp  temp_259.mdp  temp_274.mdp  temp_289.m
 
 &lt;p&gt;Each with the proper value of temperature.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;diff -y -d --suppress-common-lines temp_200.mdp temp_201.mdp
-ref_t &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 200 ; note the double curly braces.		      |	ref_t &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 201 ; note the double curly braces.
-gen_temp &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 200 ; what we can &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;it twice!?!?		      |	gen_temp &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 201 ; what we can &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;it twi&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;diff &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--suppress-common-lines&lt;/span&gt; temp_200.mdp temp_201.mdp
+ref_t &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 200 &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; note the double curly braces.		      |	ref_t &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 201 &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; note the double curly braces.
+gen_temp &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 200 &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; what we can &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;it twice!?!?		      |	gen_temp &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 201 &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; what we can &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;it twi&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;“But wait!”, you say. I am Smarty McNotLazyPants. I don’t need
 this. Why not just do&lt;/p&gt;
@@ -193,7 +192,7 @@ and one script.&lt;/p&gt;
 
 &lt;p&gt;Again the template input file (I’ve cut the irrelevant bits out)&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dt                       = {{dt}}
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dt                       = {{dt}}
 nstxtcout                = {{out_freq}}
 ref_t                    = {{temp}}
 
@@ -202,8 +201,7 @@ ref_p                    = {{pressure}}
 gen_vel                  = yes
 gen_temp                 = {{temp}}
 compressibility          = {{comp}}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;c&quot;&gt;# awesme.py&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;ibis&lt;/span&gt;
@@ -239,7 +237,7 @@ compressibility          = {{comp}}
         &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;input_{}_{}.mdp&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;w&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;outFile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
             &lt;span class=&quot;n&quot;&gt;outFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;writelines&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;paramDict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ python awesome.py
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ python awesome.py
 $ ls -v input*.mdp
 input_200_0.5.mdp
 input_200_1.0.mdp
@@ -255,8 +253,7 @@ ref_p                    = 1.5
 gen_vel                  = yes
 gen_temp                 = 285
 compressibility          = 5e-05
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Needless to say, the files you generate are still subject to the rules
 of the program you intend to use them with. Don’t blame me if
@@ -291,13 +288,13 @@ template engine.&lt;/p&gt;
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;This sentence is very useful if you ever write a paper that gets to peer review. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;This sentence is very useful if you ever write a paper that gets to peer review. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;Noun: Someone that does runs computational experiments(simulations). Was that too hard Oxford dictionary? How dare you call me a &lt;a href=&quot;https://en.oxforddictionaries.com/definition/computationalism&quot;&gt;Psychologist&lt;/a&gt;? &lt;em&gt;Ew&lt;/em&gt;. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;Noun: Someone that does runs computational experiments(simulations). Was that too hard Oxford dictionary? How dare you call me a &lt;a href=&quot;https://en.oxforddictionaries.com/definition/computationalism&quot;&gt;Psychologist&lt;/a&gt;? &lt;em&gt;Ew&lt;/em&gt;. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:3&quot;&gt;
-      &lt;p&gt;It took me only 90 minutes to come up with this rhyming joke. Good thing I did that at my office, where I don’t have anything important to do. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;It took me only 90 minutes to come up with this rhyming joke. Good thing I did that at my office, where I don’t have anything important to do. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -782,13 +779,13 @@ Yuolark “A Treatise on our Origins”. The author names all those
 races that have developed civilizations, “noble races”. These not
 only include the highly evolved races such as elves, humans,
 gnomes, dragonborn, etc, but also goblins, gnolls, orcs, etc. All
-other animals are named the “ignoble races”. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+other animals are named the “ignoble races”. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:2&quot;&gt;
       &lt;p&gt;This war was a protracted conflict with a newly formed elven
 enclave to the east of Tandor. See the biography of the great
 Tandoran general Jerald Tyepni, 3rd leviathan, titled “Ice, Glory,
-and the Folly of War” for a detailed account of those events. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+and the Folly of War” for a detailed account of those events. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:3&quot;&gt;
       &lt;p&gt;The aforementioned lack of farmable land caused this
@@ -800,20 +797,20 @@ thing not for sale in Tandor. High material and magical cost
 of running them and the fact that most people live near or on
 farmland keeps the southern kings uninterested in this
 technology. The high cost of food in Tandor keeps the population
-from growing very fast. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+from growing very fast. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:4&quot;&gt;
       &lt;p&gt;Leviathan later became the official title of the general of the
 Tandoran guard. It was passed down to later leaders of the guard,
 which were almost invariably descendants of Simon Tyepni. Until
 the defiance of Martin Tyepni, who was the 8th leviathan in training
-until his marriage. &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+until his marriage. &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:5&quot;&gt;
       &lt;p&gt;In modern times, the name “Jadr fishing company” is only used
 for historic reasons. Fishing is only a small component of its
 operations in modern times. It is also no longer a company per se,
-but the financial arm of the Tandoran government. &lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+but the financial arm of the Tandoran government. &lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;

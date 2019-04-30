@@ -40,6 +40,10 @@
         
           
         
+          
+        
+          
+        
       </div>
     </nav>
 
@@ -120,7 +124,7 @@ smart. Write changes to each file manually because I’m not smart.</li>
 I’m working, I’m writing 10,000 input files. Do you know what I think
 about most while I’m working?</p>
 
-<h3 id="a-nameskipa-when-you-procrastinate-self-intoxicate-generously-lubricate-deeply-aspirate"><a name="skip"></a> When you procrastinate: self intoxicate, generously lubricate, deeply aspirate</h3>
+<h3 id="-when-you-procrastinate-self-intoxicate-generously-lubricate-deeply-aspirate"><a name="skip"></a> When you procrastinate: self intoxicate, generously lubricate, deeply aspirate</h3>
 
 <p>And automate!<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup></p>
 
@@ -146,7 +150,7 @@ text files.</p>
 some simulations. I want to a 100 simulations, with temperatures
 ranging from 200K to 300K. My .mdp file template looks like this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>; template.mdp
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>; template.mdp
 ; ...
 ; Crap I don't care about right now
 ; ...
@@ -158,8 +162,7 @@ ref_t = {{temp}} ; This is template markup. Note the double curly braces.
 ; ...
 
 gen_temp = {{temp}} ; what we can do it twice!?!?
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>{{temp}}  will hold the value for the
 temperature. And we’ll script creating the files with python and
@@ -170,10 +173,10 @@ of the keys on the fly.</p>
 
 <p>Let’s start.</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>pip install ibis
-<span class="gp">$ </span>mkdir input_files
-<span class="gp">$ </span>cp template.mdp input_files/
-<span class="gp">$ </span><span class="nb">cd </span>input_files</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>pip install ibis
+<span class="nv">$ </span>mkdir input_files
+<span class="nv">$ </span>cp template.mdp input_files/
+<span class="nv">$ </span><span class="nb">cd </span>input_files</code></pre></figure>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># run.py</span>
 <span class="kn">import</span> <span class="nn">ibis</span>
@@ -189,8 +192,8 @@ of the keys on the fly.</p>
 
 <p>Now to generate the files. Kiss your SSD goodbye.</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>python run.py
-<span class="gp">$ </span>ls -v temp_<span class="k">*</span>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>python run.py
+<span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-v</span> temp_<span class="k">*</span>
 temp_200.mdp  temp_215.mdp  temp_230.mdp  temp_245.mdp  temp_260.mdp  temp_275.mdp  temp_290.mdp
 temp_201.mdp  temp_216.mdp  temp_231.mdp  temp_246.mdp  temp_261.mdp  temp_276.mdp  temp_291.mdp
 temp_202.mdp  temp_217.mdp  temp_232.mdp  temp_247.mdp  temp_262.mdp  temp_277.mdp  temp_292.mdp
@@ -209,9 +212,9 @@ temp_214.mdp  temp_229.mdp  temp_244.mdp  temp_259.mdp  temp_274.mdp  temp_289.m
 
 <p>Each with the proper value of temperature.</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>diff -y -d --suppress-common-lines temp_200.mdp temp_201.mdp
-ref_t <span class="o">=</span> 200 ; note the double curly braces.		      |	ref_t <span class="o">=</span> 201 ; note the double curly braces.
-gen_temp <span class="o">=</span> 200 ; what we can <span class="k">do </span>it twice!?!?		      |	gen_temp <span class="o">=</span> 201 ; what we can <span class="k">do </span>it twi</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>diff <span class="nt">-y</span> <span class="nt">-d</span> <span class="nt">--suppress-common-lines</span> temp_200.mdp temp_201.mdp
+ref_t <span class="o">=</span> 200 <span class="p">;</span> note the double curly braces.		      |	ref_t <span class="o">=</span> 201 <span class="p">;</span> note the double curly braces.
+gen_temp <span class="o">=</span> 200 <span class="p">;</span> what we can <span class="k">do </span>it twice!?!?		      |	gen_temp <span class="o">=</span> 201 <span class="p">;</span> what we can <span class="k">do </span>it twi</code></pre></figure>
 
 <p>“But wait!”, you say. I am Smarty McNotLazyPants. I don’t need
 this. Why not just do</p>
@@ -239,7 +242,7 @@ and one script.</p>
 
 <p>Again the template input file (I’ve cut the irrelevant bits out)</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>dt                       = {{dt}}
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dt                       = {{dt}}
 nstxtcout                = {{out_freq}}
 ref_t                    = {{temp}}
 
@@ -248,8 +251,7 @@ ref_p                    = {{pressure}}
 gen_vel                  = yes
 gen_temp                 = {{temp}}
 compressibility          = {{comp}}
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># awesme.py</span>
 <span class="kn">import</span> <span class="nn">ibis</span>
@@ -285,7 +287,7 @@ compressibility          = {{comp}}
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"input_{}_{}.mdp"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="s">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">outFile</span><span class="p">:</span>
             <span class="n">outFile</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">paramDict</span><span class="p">))</span></code></pre></figure>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ python awesome.py
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python awesome.py
 $ ls -v input*.mdp
 input_200_0.5.mdp
 input_200_1.0.mdp
@@ -301,8 +303,7 @@ ref_p                    = 1.5
 gen_vel                  = yes
 gen_temp                 = 285
 compressibility          = 5e-05
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Needless to say, the files you generate are still subject to the rules
 of the program you intend to use them with. Don’t blame me if
@@ -337,13 +338,13 @@ template engine.</p>
 <div class="footnotes">
   <ol>
     <li id="fn:1">
-      <p>This sentence is very useful if you ever write a paper that gets to peer review. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+      <p>This sentence is very useful if you ever write a paper that gets to peer review. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:2">
-      <p>Noun: Someone that does runs computational experiments(simulations). Was that too hard Oxford dictionary? How dare you call me a <a href="https://en.oxforddictionaries.com/definition/computationalism">Psychologist</a>? <em>Ew</em>. <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+      <p>Noun: Someone that does runs computational experiments(simulations). Was that too hard Oxford dictionary? How dare you call me a <a href="https://en.oxforddictionaries.com/definition/computationalism">Psychologist</a>? <em>Ew</em>. <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:3">
-      <p>It took me only 90 minutes to come up with this rhyming joke. Good thing I did that at my office, where I don’t have anything important to do. <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+      <p>It took me only 90 minutes to come up with this rhyming joke. Good thing I did that at my office, where I don’t have anything important to do. <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>
