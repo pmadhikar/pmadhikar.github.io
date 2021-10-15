@@ -1,0 +1,298 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>FRIJT</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">
+            You are using an <strong>outdated</strong> browser. Please
+            <a href="http://browsehappy.com/">upgrade your browser</a> to improve
+            your experience.
+            </p>
+        <![endif]-->
+
+        <canvas id="canvas" width="1000" height="1000" background-color:""></canvas>
+
+        <script>
+         var canvas = document.getElementById('canvas');
+         var ctx = canvas.getContext("2d");
+
+         var radius = canvas.width/20;
+         var stringLen = 4*radius;
+         var fontSize = radius/1.5;
+         var sigma = 2*radius
+
+         var startX = canvas.width/2 - 3*radius;
+         var startY = radius*1.1;
+
+         var balls = [];
+
+
+         var dt = 0.1;
+         var mass = 1;
+         var g = -10;
+
+         var k = 50;
+
+         var ethereumLogo = new Image();
+         var tetherLogo = new Image();
+         var ftxLogo = new Image();
+         var raydiumLogo = new Image();
+         var jarvisLogo = new Image();
+         var yearnLogo = new Image();
+         var reefLogo = new Image();
+
+         class Ball{
+             constructor(x, y, radius, character, stringX, stringY, image=null, color=null){
+                 this.x = x;
+                 this.y = y;
+                 this.radius = radius;
+                 this.character = character;
+
+                 this.mass = mass;
+
+                 this.stringX = stringX;
+                 this.stringY = stringY;
+
+                 this.svgGroup = canvas.append("g");
+
+                 this.forceX=0;
+                 this.forceY=0;
+
+                 this.velX = 0;
+                 this.velY = 0;
+
+                 this.image = image;
+                 this.color = color;
+
+                 this.draw();
+             }
+
+             draw() {
+
+                 // Draw the string
+                 ctx.beginPath();
+                 ctx.moveTo(this.stringX, this.stringY);
+                 ctx.lineTo(this.x, this.y);
+                 ctx.closePath();
+                 ctx.stroke();
+
+                 // Draw the ball
+                 ctx.beginPath();
+                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
+                 ctx.closePath();
+
+                 if (this.color != null) {
+                     ctx.fillStyle = this.color;
+                 }
+
+                 ctx.fill();
+                 ctx.stroke();
+                 if (this.image == null){
+                     ctx.font = '20px monospace';
+                     ctx.fillStyle='black';
+                     ctx.fillText(this.character, this.x-5, this.y+5);
+                 } else {
+                     ctx.drawImage(this.image, this.x-this.radius, this.y-this.radius, this.radius*2, this.radius*2);
+
+                 }
+             }
+
+             move(){
+                 this.x = this.x + this.deltaX;
+                 this.y = this.y + this.deltaY;
+
+                 //this.enforceStringLen();
+             }
+
+             addStringForce(){
+                 let rx = this.x - this.stringX;
+                 let ry = this.y - this.stringY;
+
+                 let rMag = Math.sqrt(rx*rx + ry*ry);
+
+                 let ruX = rx/rMag;
+                 let ruY = ry/rMag;
+
+                 let fMag = k*(rMag-stringLen);
+
+                 this.forceX += -fMag*ruX;
+                 this.forceY += -fMag*ruY;
+
+                 let dotProd = this.velX*ruX + this.velY*ruY
+
+                 let velRelX = dotProd*ruX;
+                 let velRelY = dotProd*ruY;
+
+                 this.forceX += -10*velRelX;
+                 this.forceY += -10*velRelY;
+
+             }
+
+             update(){
+                 // Velocty Verlet
+                 this.deltaX = this.velX*dt + 0.5*this.forceX*dt*dt;
+                 this.deltaY = this.velY*dt + 0.5*this.forceY*dt*dt;
+
+                 this.move();
+
+                 let oldForceX = 0;
+                 let oldForceY = 0;
+
+                 oldForceX = this.forceX;
+                 oldForceY = this.forceY;
+                 this.forceX = 0;
+                 this.forceY = 0;
+
+                 this.addStringForce();
+
+                 this.forceY += -g; // gravity
+
+                 this.velX = this.velX + 0.5*(this.forceX+oldForceX)*dt;
+                 this.velY = this.velY + 0.5*(this.forceY+oldForceY)*dt;
+             }
+         }
+
+         function collisions(){
+             for (i = 0; i< balls.length; i++){
+                 for (j = i+1; j< balls.length; j++){
+                     let rijX = balls[i].x - balls[j].x;
+                     let rijY = balls[j].y - balls[j].y;
+
+                     let rMag = Math.sqrt(rijX*rijX + rijY*rijY);
+
+                     let fMag = 0;
+
+                     let delta = rMag-sigma;
+
+                     if (delta <=0){
+                         fMag = 100*delta;
+                     }
+
+                     let rijXU = rijX/rMag;
+                     let rijYU = rijY/rMag;
+
+                     let fX = fMag*rijXU;
+                     let fY = fMag*rijYU;
+
+                     balls[i].forceX -= fX;
+                     balls[i].forceY -= fY;
+
+                     balls[j].forceX += fX;
+                     balls[j].forceY += fY;
+                 }
+             }
+         }
+
+         function resetSimulation(){
+             radius = canvas.width/25;
+             stringLenon = 4*radius;
+             fontSize = radius/1.5;
+             sigma = 2*radius;
+
+             startX = canvas.width/2 - 3*radius;
+             startY = radius*1.1;
+             balls = [];
+             balls.push(new Ball(startX+0*radius, stringLen+radius, radius, "F", startX+0*2*radius,startY, ftxLogo, "white"));
+             balls.push(new Ball(startX+2*radius, stringLen+radius, radius, "R", startX+1*2*radius,startY, reefLogo, "white"));
+             balls.push(new Ball(startX+4*radius, stringLen+radius, radius, "I", startX+2*2*radius,startY, yearnLogo, "white"));
+             balls.push(new Ball(startX+6*radius, stringLen+radius, radius, "J", startX+3*2*radius,startY, jarvisLogo, "white"));
+             balls.push(new Ball(startX+8*radius, stringLen+radius, radius, "T", startX+4*2*radius,startY, tetherLogo, 'white'));
+
+             balls.push(new Ball(startX-2*radius-stringLen, startY, radius, "V", startX-2*radius, startY, ethereumLogo, 'white'));
+         }
+
+         function init(){
+             ethereumLogo.src = "ethereum3.png";
+             tetherLogo.src = "tether.png";
+             ftxLogo.src = "ftx.png";
+             raydiumLogo.src="raydium.png";
+             jarvisLogo.src="jarvis.png";
+             yearnLogo.src="yearn.png";
+             reefLogo.src="reef.png";
+             resetSimulation();
+             window.requestAnimationFrame(draw);
+         }
+
+         function draw(){
+             ctx.clearRect(0, 0, canvas.width, canvas.height);
+             collisions();
+             balls.forEach(function(ball){
+                 ball.update();
+                 ball.draw();
+             })
+
+             raf = window.requestAnimationFrame(draw);
+         }
+
+
+         window.onresize = function (){
+             canvas.height = innerHeight;
+             canvas.width = innerWidth;
+             resetSimulation();
+         }
+
+         function clicker(e){
+             let x = e.x;
+             let y = e.y;
+
+             // find the nearest ball
+             let minR = 1e10;
+             let minRIdx = -1;
+
+
+             for (idx = 0; idx < balls.length; idx++){
+                 let rx = balls[idx].x-x;
+                 let ry = balls[idx].y-y;
+
+                 let r = Math.sqrt(rx*rx + ry*ry);
+
+                 if (r<=minR){
+                     minRIdx = idx;
+                     minR = r;
+                 }
+             }
+
+             let closestBall = balls[minRIdx];
+
+             // Pull that ball to the mouse
+
+             // let rx = closestBall.x - x;
+             // let ry = closestBall.y - y;
+             //
+             // let rMag = Math.sqrt(rx*rx - ry*ry);
+             //
+             // let fMag = -k*(rMag);
+             //
+             // console.log(rMag);
+             // console.log(fMag);
+
+
+             // closestBall.forceX += fMag*rx/rMag;
+             // closestBall.forceY += fMag*ry/rMag;
+
+             closestBall.x = x;
+             closestBall.y = y;
+             
+         }
+
+         canvas.addEventListener('click', function(e){
+             clicker(e);
+         }, false);
+
+         init();
+
+        </script>
+
+
+    </body>
+</html>
