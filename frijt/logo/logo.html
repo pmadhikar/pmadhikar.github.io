@@ -164,7 +164,7 @@
              for (i = 0; i< balls.length; i++){
                  for (j = i+1; j< balls.length; j++){
                      let rijX = balls[i].x - balls[j].x;
-                     let rijY = balls[j].y - balls[j].y;
+                     let rijY = balls[i].y - balls[j].y;
 
                      let rMag = Math.sqrt(rijX*rijX + rijY*rijY);
 
@@ -194,7 +194,7 @@
          function resetSimulation(){
              canvas.height = innerHeight;
              canvas.width = innerWidth;
-             radius = canvas.width/25;
+             radius = Math.min(canvas.width, canvas.height)/25;
              stringLen = 4*radius;
              fontSize = radius/1.5;
              sigma = 2*radius;
