@@ -20,7 +20,7 @@
             </p>
         <![endif]-->
 
-        <canvas id="canvas" width="1000" height="1000" background-color:""></canvas>
+        <canvas id="canvas" background-color:""></canvas>
 
         <script>
          var canvas = document.getElementById('canvas');
@@ -110,8 +110,6 @@
              move(){
                  this.x = this.x + this.deltaX;
                  this.y = this.y + this.deltaY;
-
-                 //this.enforceStringLen();
              }
 
              addStringForce(){
@@ -194,19 +192,21 @@
          }
 
          function resetSimulation(){
+             canvas.height = innerHeight;
+             canvas.width = innerWidth;
              radius = canvas.width/25;
-             stringLenon = 4*radius;
+             stringLen = 4*radius;
              fontSize = radius/1.5;
              sigma = 2*radius;
 
              startX = canvas.width/2 - 3*radius;
-             startY = radius*1.1;
+             startY = canvas.height/2 - stringLen;
              balls = [];
-             balls.push(new Ball(startX+0*radius, stringLen+radius, radius, "F", startX+0*2*radius,startY, ftxLogo, "white"));
-             balls.push(new Ball(startX+2*radius, stringLen+radius, radius, "R", startX+1*2*radius,startY, reefLogo, "white"));
-             balls.push(new Ball(startX+4*radius, stringLen+radius, radius, "I", startX+2*2*radius,startY, yearnLogo, "white"));
-             balls.push(new Ball(startX+6*radius, stringLen+radius, radius, "J", startX+3*2*radius,startY, jarvisLogo, "white"));
-             balls.push(new Ball(startX+8*radius, stringLen+radius, radius, "T", startX+4*2*radius,startY, tetherLogo, 'white'));
+             balls.push(new Ball(startX+0*radius, stringLen+startY, radius, "F", startX+0*2*radius,startY, ftxLogo, "white"));
+             balls.push(new Ball(startX+2*radius, stringLen+startY, radius, "R", startX+1*2*radius,startY, reefLogo, "white"));
+             balls.push(new Ball(startX+4*radius, stringLen+startY, radius, "I", startX+2*2*radius,startY, yearnLogo, "white"));
+             balls.push(new Ball(startX+6*radius, stringLen+startY, radius, "J", startX+3*2*radius,startY, jarvisLogo, "white"));
+             balls.push(new Ball(startX+8*radius, stringLen+startY, radius, "T", startX+4*2*radius,startY, tetherLogo, 'white'));
 
              balls.push(new Ball(startX-2*radius-stringLen, startY, radius, "V", startX-2*radius, startY, ethereumLogo, 'white'));
          }
@@ -236,8 +236,6 @@
 
 
          window.onresize = function (){
-             canvas.height = innerHeight;
-             canvas.width = innerWidth;
              resetSimulation();
          }
 
@@ -266,22 +264,14 @@
 
              // Pull that ball to the mouse
 
-             // let rx = closestBall.x - x;
-             // let ry = closestBall.y - y;
-             //
-             // let rMag = Math.sqrt(rx*rx - ry*ry);
-             //
-             // let fMag = -k*(rMag);
-             //
-             // console.log(rMag);
-             // console.log(fMag);
-
-
-             // closestBall.forceX += fMag*rx/rMag;
-             // closestBall.forceY += fMag*ry/rMag;
-
              closestBall.x = x;
              closestBall.y = y;
+
+             closestBall.velX = 0;
+             closestBall.velY = 0;
+
+             closestBall.forceX = 0;
+             closestBall.forceY = 0;
              
          }
 
