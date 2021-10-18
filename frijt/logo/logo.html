@@ -51,6 +51,11 @@
          var yearnLogo = new Image();
          var reefLogo = new Image();
 
+         var mouseX;
+         var mouseY;
+         var mouseDown = false;
+         var closestBall = null;
+
          class Ball{
              constructor(x, y, radius, character, stringX, stringY, image=null, color=null){
                  this.x = x;
@@ -137,6 +142,10 @@
              }
 
              update(){
+                 if (this == closestBall){
+                     this.x = mouseX;
+                     this.y = mouseY;
+                 }
                  // Velocty Verlet
                  this.deltaX = this.velX*dt + 0.5*this.forceX*dt*dt;
                  this.deltaY = this.velY*dt + 0.5*this.forceY*dt*dt;
@@ -260,7 +269,7 @@
                  }
              }
 
-             let closestBall = balls[minRIdx];
+             closestBall = balls[minRIdx];
 
              // Pull that ball to the mouse
 
@@ -272,12 +281,39 @@
 
              closestBall.forceX = 0;
              closestBall.forceY = 0;
-             
+
          }
 
-         canvas.addEventListener('click', function(e){
+         // canvas.addEventListener('click', function(e){
+         //     clicker(e);
+         // }, false);
+
+         function trackMouse(e){
+             mouseX = e.x;
+             mouseY = e.y;
+         }
+
+         canvas.addEventListener("mousemove", function(e){
+                 trackMouse(e);
+         });
+
+         canvas.addEventListener("mousedown", function(e){
+             mouseDown = true;
              clicker(e);
-         }, false);
+
+         })
+
+         canvas.addEventListener("mouseup", function(e){
+             mouseDown = false;
+             mouseX = null;
+             mouseY = null;
+             closestBall.velX = 0;
+             closestBall.velY = 0;
+             closestBall.forceX = 0;
+             closestBall.forceY = 0;
+             closestBall = null;
+         })
+
 
          init();
 
