@@ -37,7 +37,7 @@
          var balls = [];
 
 
-         var dt = 0.1;
+         var dt = 0.05;
          var mass = 1;
          var g = -10;
 
@@ -50,6 +50,7 @@
          var jarvisLogo = new Image();
          var yearnLogo = new Image();
          var reefLogo = new Image();
+         var blackHatLogo = new Image();
 
          var mouseX;
          var mouseY;
@@ -57,7 +58,7 @@
          var closestBall = null;
 
          class Ball{
-             constructor(x, y, radius, character, stringX, stringY, image=null, color=null){
+             constructor(x, y, radius, character, stringX, stringY, image=null, color=null, velX=0, velY=0, isHacker=false){
                  this.x = x;
                  this.y = y;
                  this.radius = radius;
@@ -73,48 +74,61 @@
                  this.forceX=0;
                  this.forceY=0;
 
-                 this.velX = 0;
-                 this.velY = 0;
+                 this.velX = velX;
+                 this.velY = velY;
 
                  this.image = image;
                  this.color = color;
+
+                 this.isHacker=isHacker
 
                  this.draw();
              }
 
              draw() {
+                 if (this.isHacker == false){
+                     // Draw the string
+                     ctx.beginPath();
+                     ctx.moveTo(this.stringX, this.stringY);
+                     ctx.lineTo(this.x, this.y);
+                     ctx.closePath();
+                     ctx.stroke();
 
-                 // Draw the string
-                 ctx.beginPath();
-                 ctx.moveTo(this.stringX, this.stringY);
-                 ctx.lineTo(this.x, this.y);
-                 ctx.closePath();
-                 ctx.stroke();
+                     // Draw the ball
+                     ctx.beginPath();
+                     ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
+                     ctx.closePath();
 
-                 // Draw the ball
-                 ctx.beginPath();
-                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
-                 ctx.closePath();
+                     if (this.color != null) {
+                         ctx.fillStyle = this.color;
+                     }
 
-                 if (this.color != null) {
-                     ctx.fillStyle = this.color;
+                     ctx.fill();
+                     ctx.stroke();
                  }
 
-                 ctx.fill();
-                 ctx.stroke();
                  if (this.image == null){
                      ctx.font = '20px monospace';
                      ctx.fillStyle='black';
                      ctx.fillText(this.character, this.x-5, this.y+5);
                  } else {
                      ctx.drawImage(this.image, this.x-this.radius, this.y-this.radius, this.radius*2, this.radius*2);
-
                  }
              }
 
              move(){
                  this.x = this.x + this.deltaX;
                  this.y = this.y + this.deltaY;
+
+                 if (this.isHacker==true){
+                     if (this.x <= this.radius || this.x >= canvas.width - radius){
+                         this.velX = -1* this.velX;
+                     }
+
+                     if (this.y <= this.radius || this.y >= canvas.height - radius){
+                         this.velY = -1* this.velY;
+                     }
+                 }
              }
 
              addStringForce(){
@@ -160,17 +174,25 @@
                  this.forceX = 0;
                  this.forceY = 0;
 
-                 this.addStringForce();
+                 if (this.isHacker == false){
 
-                 this.forceY += -g; // gravity
+                     this.addStringForce();
+
+                     this.forceY += -g; // gravity
+                 }
 
                  this.velX = this.velX + 0.5*(this.forceX+oldForceX)*dt;
                  this.velY = this.velY + 0.5*(this.forceY+oldForceY)*dt;
              }
          }
 
-         function collisions(){
+         function collisions() {
              for (i = 0; i< balls.length; i++){
+
+                 if (balls[i].isHacker===true){
+                     continue;
+                 }
+
                  for (j = i+1; j< balls.length; j++){
                      let rijX = balls[i].x - balls[j].x;
                      let rijY = balls[i].y - balls[j].y;
@@ -179,23 +201,44 @@
 
                      let fMag = 0;
 
-                     let delta = rMag-sigma;
+                     let delta = 0;
 
-                     if (delta <=0){
-                         fMag = 100*delta;
+                     if (balls[j].isHacker == false ){
+                         delta = rMag-sigma;
+
+                         if (delta <=0){
+                             fMag = 100*delta;
+                         }
+
+                         let rijXU = rijX/rMag;
+                         let rijYU = rijY/rMag;
+
+                         let fX = fMag*rijXU;
+                         let fY = fMag*rijYU;
+
+                         balls[i].forceX -= fX;
+                         balls[i].forceY -= fY;
+
+                         balls[j].forceX += fX;
+                         balls[j].forceY += fY;
+
+                     }  else {
+
+                         delta = rMag - 3*sigma;
+                         if (delta <= 0){
+                             fMag = 10*delta;
+                         }
+
+                         let rijXU = rijX/rMag;
+                         let rijYU = rijY/rMag;
+
+                         let fX = fMag*rijXU;
+                         let fY = fMag*rijYU;
+
+                         balls[i].forceX += -fX;
+                         balls[i].forceY += -fY;
+
                      }
-
-                     let rijXU = rijX/rMag;
-                     let rijYU = rijY/rMag;
-
-                     let fX = fMag*rijXU;
-                     let fY = fMag*rijYU;
-
-                     balls[i].forceX -= fX;
-                     balls[i].forceY -= fY;
-
-                     balls[j].forceX += fX;
-                     balls[j].forceY += fY;
                  }
              }
          }
@@ -211,6 +254,7 @@
              startX = canvas.width/2 - 3*radius;
              startY = canvas.height/2 - stringLen;
              balls = [];
+
              balls.push(new Ball(startX+0*radius, stringLen+startY, radius, "F", startX+0*2*radius,startY, ftxLogo, "white"));
              balls.push(new Ball(startX+2*radius, stringLen+startY, radius, "R", startX+1*2*radius,startY, reefLogo, "white"));
              balls.push(new Ball(startX+4*radius, stringLen+startY, radius, "I", startX+2*2*radius,startY, yearnLogo, "white"));
@@ -218,6 +262,10 @@
              balls.push(new Ball(startX+8*radius, stringLen+startY, radius, "T", startX+4*2*radius,startY, tetherLogo, 'white'));
 
              balls.push(new Ball(startX-2*radius-stringLen, startY, radius, "V", startX-2*radius, startY, ethereumLogo, 'white'));
+
+             hackerVelX = Math.random()*100 - 50;
+             hackerVelY = Math.random()*100 - 50;
+             balls.push(new Ball(radius + Math.random()*canvas.width, radius + Math.random()*canvas.height, radius, "H", 0, startY, blackHatLogo, 'white', hackerVelX, hackerVelY, true));
          }
 
          function init(){
@@ -228,6 +276,7 @@
              jarvisLogo.src="jarvis.png";
              yearnLogo.src="yearn.png";
              reefLogo.src="reef.png";
+             blackHatLogo.src="blackhat.png";
              resetSimulation();
              window.requestAnimationFrame(draw);
          }
