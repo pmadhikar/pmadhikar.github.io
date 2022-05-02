@@ -37,7 +37,7 @@
          var balls = [];
 
 
-         var dt = 0.05;
+         var dt = 0.1;
          var mass = 1;
          var g = -10;
 
@@ -224,9 +224,9 @@
 
                      }  else {
 
-                         delta = rMag - 3*sigma;
+                         delta = rMag - 2*sigma;
                          if (delta <= 0){
-                             fMag = 10*delta;
+                             fMag = 100*delta;
                          }
 
                          let rijXU = rijX/rMag;
@@ -247,7 +247,7 @@
              canvas.height = innerHeight;
              canvas.width = innerWidth;
              radius = Math.min(canvas.width, canvas.height)/25;
-             stringLen = 4*radius;
+             stringLen = 6*radius;
              fontSize = radius/1.5;
              sigma = 2*radius;
 
