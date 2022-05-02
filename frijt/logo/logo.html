@@ -360,7 +360,12 @@
              closestBall.velY = 0;
              closestBall.forceX = 0;
              closestBall.forceY = 0;
+             if (closestBall.isHacker==true){
+                 closestBall.velX = Math.random()*100 - 50;
+                 closestBall.velY = Math.random()*100 - 50;
+             }
              closestBall = null;
+
          })
 
 
